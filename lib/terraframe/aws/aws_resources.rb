@@ -15,12 +15,14 @@ module Terraframe
     end
 
     class AWSTaggedResource < Terraframe::Resource
-      def initialize(name, vars, context, &block)
+      def initialize(parent_module, resource_name, resource_type, &block)
+        super(parent_module, resource_name, resource_type, &block)
+      # def initialize(name, vars, context, &block)
         @fields = {}
-        @vars = Hashie::Mash.new(vars)
+        # @vars = Hashie::Mash.new(vars)
 
         clear_tags!
-        @fields["tags"]["Name"] = name
+        @fields["tags"]["Name"] = resource_name
 
         instance_eval &block
       end
@@ -39,9 +41,11 @@ module Terraframe
     end
 
     class AWSSecurityGroupResource < AWSTaggedResource
-      def initialize(name, vars, context, &block)
-        super(name, vars, context, &block)
-        @fields["name"] = name
+      def initialize(parent_module, resource_name, resource_type, &block)
+      # def initialize(name, vars, context, &block)
+        super(parent_module, resource_name, resource_type, &block)
+        # super(name, vars, context, &block)
+        @fields["name"] = resource_name
       end
     end
   end

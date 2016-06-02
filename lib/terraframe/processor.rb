@@ -16,7 +16,7 @@ module Terraframe
 
     def initialize
       @logger = Logger.new($stderr)
-      logger.level = Logger::INFO
+      logger.level = Logger::DEBUG
 
       logger.debug "Logger initialized."
 
@@ -25,6 +25,7 @@ module Terraframe
     end
 
     def register_context(name, context)
+    logger.info "Defining context '#{name}'."
       name = name.to_sym
       if @contexts[name]
         logger.warn "A context with the name '#{name}' has been registered more than once."
