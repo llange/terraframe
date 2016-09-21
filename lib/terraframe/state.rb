@@ -167,6 +167,15 @@ module Terraframe
       if not new_variable[:description].nil?
         variable_content[:description] = new_variable[:description]
       end
+      if not new_variable[:type].nil?
+        if ['string', 'list', 'map'].include?(new_variable[:type])
+            variable_content[:type] = new_variable[:type]
+        else
+            msg = "Unknown variable type: '#{new_variable[:type]}'."
+            logger.fatal msg
+            raise msg
+        end
+      end
       if not new_variable[:default].nil?
         variable_content[:default] = new_variable[:default]
       end
