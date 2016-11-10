@@ -89,6 +89,12 @@ module Terraframe
       logger.info "Building Terraform script from state."
       logger.debug "Contexts:"
       @contexts.each { |c| logger.debug " - #{c}" }
+      if @__output[:output].empty?
+        @__output.delete(:output)
+      end
+      if @__output[:resource].empty?
+        @__output.delete(:resource)
+      end
       @__output.to_json
     end
 
@@ -107,7 +113,14 @@ module Terraframe
     end
 
     def generate
-      JSON.pretty_generate(elements)
+      elts = elements
+      if elts[:output].empty?
+        elts.delete(:output)
+      end
+      if elts[:resource].empty?
+        elts.delete(:resource)
+      end
+      JSON.pretty_generate(elts)
     end
 
     def get(variable)
